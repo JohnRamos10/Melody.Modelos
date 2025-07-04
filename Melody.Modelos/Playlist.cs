@@ -10,12 +10,12 @@ namespace Melody.Modelos
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
-        public string Imagen { get; set; }
+        public string? Imagen { get; set; }
         public bool EsPublica { get; set; }
         // Foreign key
-        public string UsuarioId { get; set; }
+        public int UsuarioId { get; set; }
         // Navigation properties
         public Usuario? Usuario { get; set; }
-        public List<PlaylistCancion>? PlaylistCanciones { get; set; } = new();
+        public List<PlaylistCancion>? PlaylistCanciones { get; set; } 
     }
 }

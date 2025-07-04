@@ -14,9 +14,9 @@ namespace Melody.Modelos
         public string PortadaUrl { get; set; }
         // Foreign keys
         public int GeneroId { get; set; }
-        public string ArtistaId { get; set; }
+        public int ArtistaId { get; set; }
         // Navigation properties
-        public Usuario? Artista { get; set; }
+        public Artista? Artista { get; set; }
         public Genero? Genero { get; set; }
         public List<Cancion>? Canciones { get; set; }
     }

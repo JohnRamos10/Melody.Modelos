@@ -12,10 +12,12 @@ namespace Melody.Modelos
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public string? FotoPerfil { get; set; }
+        public DateTime FechaRegistro { get; set; } = DateTime.Now;
         public List<Playlist>? Playlists { get; set; }
         public List<Suscripcion>? Suscripciones { get; set; }
-        public List<Album>? Albums { get; set; }
-        public List<Cancion>? Canciones { get; set; }
-        public List<Pago>? Pagos { get; set; }
+      public List<Seguimiento>? Seguimientos { get; set; }
+
+        public Artista? Artista { get; set; }
+
     }
 }

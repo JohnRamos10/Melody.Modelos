@@ -17,9 +17,9 @@ namespace Melody.API.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.15")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("Melody.Modelos.Album", b =>
                 {
@@ -27,36 +27,61 @@ namespace Melody.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ArtistaId")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int?>("ArtistaId1")
+                    b.Property<int>("ArtistaId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("FechaLanzamiento")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("GeneroId")
                         .HasColumnType("int");
 
                     b.Property<string>("PortadaUrl")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Titulo")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ArtistaId1");
+                    b.HasIndex("ArtistaId");
 
                     b.HasIndex("GeneroId");
 
                     b.ToTable("Albums");
+                });
+
+            modelBuilder.Entity("Melody.Modelos.Artista", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Biografia")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImagenPerfil")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NombreArtista")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId")
+                        .IsUnique();
+
+                    b.ToTable("Artistas");
                 });
 
             modelBuilder.Entity("Melody.Modelos.Cancion", b =>
@@ -65,41 +90,40 @@ namespace Melody.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("AlbumId")
                         .HasColumnType("int");
 
                     b.Property<string>("ArchivoAudio")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ArtistaId")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int?>("ArtistaId1")
+                    b.Property<int>("ArtistaId")
                         .HasColumnType("int");
 
+                    b.Property<TimeSpan?>("Duracion")
+                        .HasColumnType("time");
+
                     b.Property<DateTime>("FechaLanzamiento")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("GeneroId")
                         .HasColumnType("int");
 
                     b.Property<string>("PortadaUrl")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Titulo")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AlbumId");
 
-                    b.HasIndex("ArtistaId1");
+                    b.HasIndex("ArtistaId");
 
                     b.HasIndex("GeneroId");
 
@@ -112,11 +136,11 @@ namespace Melody.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -129,29 +153,24 @@ namespace Melody.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("FechaPago")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("MetodoPago")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Monto")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<int>("SuscripcionId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UsuarioId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("SuscripcionId");
-
-                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Pagos");
                 });
@@ -162,21 +181,24 @@ namespace Melody.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Descripcion")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("DuracionDias")
                         .HasColumnType("int");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumeroUsuarios")
+                        .HasColumnType("int");
 
                     b.Property<double>("Precio")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -189,74 +211,81 @@ namespace Melody.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("EsPublica")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Imagen")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UsuarioId")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int?>("UsuarioId1")
+                    b.Property<int>("UsuarioId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UsuarioId1");
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Playlists");
                 });
 
             modelBuilder.Entity("Melody.Modelos.PlaylistCancion", b =>
                 {
-                    b.Property<int>("PlaylistId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CancionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Id")
+                    b.Property<int>("PlaylistId")
                         .HasColumnType("int");
 
-                    b.HasKey("PlaylistId", "CancionId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CancionId");
+
+                    b.HasIndex("PlaylistId");
 
                     b.ToTable("PlaylistsCanciones");
                 });
 
             modelBuilder.Entity("Melody.Modelos.Seguimiento", b =>
                 {
-                    b.Property<string>("UsuarioId")
-                        .HasColumnType("varchar(255)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<string>("ArtistaId")
-                        .HasColumnType("varchar(255)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ArtistaId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("ArtistaId1")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("FechaSeguimiento")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("Id")
+                    b.Property<int>("UsuarioId")
                         .HasColumnType("int");
 
                     b.Property<int?>("UsuarioId1")
                         .HasColumnType("int");
 
-                    b.HasKey("UsuarioId", "ArtistaId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArtistaId");
 
                     b.HasIndex("ArtistaId1");
+
+                    b.HasIndex("UsuarioId");
 
                     b.HasIndex("UsuarioId1");
 
@@ -269,29 +298,28 @@ namespace Melody.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("EsActiva")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("FechaFin")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("FechaInicio")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("PlanId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UsuarioId")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int?>("UsuarioId1")
+                    b.Property<int>("UsuarioId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PlanId");
 
-                    b.HasIndex("UsuarioId1");
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Suscripciones");
                 });
@@ -302,65 +330,68 @@ namespace Melody.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
                     b.Property<string>("Apellido")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("FechaRegistro")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("FotoPerfil")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
@@ -369,7 +400,8 @@ namespace Melody.API.Migrations
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasDatabaseName("UserNameIndex");
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -380,27 +412,54 @@ namespace Melody.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasDatabaseName("RoleNameIndex");
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "artista",
+                            NormalizedName = "ARTISTA"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "userfree",
+                            NormalizedName = "USERFREE"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "userpremium",
+                            NormalizedName = "USERPREMIUM"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -409,13 +468,13 @@ namespace Melody.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
@@ -433,13 +492,13 @@ namespace Melody.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -454,13 +513,13 @@ namespace Melody.API.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -493,13 +552,13 @@ namespace Melody.API.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
@@ -508,10 +567,11 @@ namespace Melody.API.Migrations
 
             modelBuilder.Entity("Melody.Modelos.Album", b =>
                 {
-                    b.HasOne("Melody.Modelos.Usuario", "Artista")
+                    b.HasOne("Melody.Modelos.Artista", "Artista")
                         .WithMany("Albums")
-                        .HasForeignKey("ArtistaId1")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("ArtistaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Melody.Modelos.Genero", "Genero")
                         .WithMany("Albums")
@@ -524,15 +584,28 @@ namespace Melody.API.Migrations
                     b.Navigation("Genero");
                 });
 
+            modelBuilder.Entity("Melody.Modelos.Artista", b =>
+                {
+                    b.HasOne("Melody.Modelos.Usuario", "Usuario")
+                        .WithOne("Artista")
+                        .HasForeignKey("Melody.Modelos.Artista", "UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
             modelBuilder.Entity("Melody.Modelos.Cancion", b =>
                 {
                     b.HasOne("Melody.Modelos.Album", "Album")
                         .WithMany("Canciones")
                         .HasForeignKey("AlbumId");
 
-                    b.HasOne("Melody.Modelos.Usuario", "Artista")
+                    b.HasOne("Melody.Modelos.Artista", "Artista")
                         .WithMany("Canciones")
-                        .HasForeignKey("ArtistaId1");
+                        .HasForeignKey("ArtistaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Melody.Modelos.Genero", "Genero")
                         .WithMany("Canciones")
@@ -555,10 +628,6 @@ namespace Melody.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Melody.Modelos.Usuario", null)
-                        .WithMany("Pagos")
-                        .HasForeignKey("UsuarioId");
-
                     b.Navigation("Suscripcion");
                 });
 
@@ -566,7 +635,9 @@ namespace Melody.API.Migrations
                 {
                     b.HasOne("Melody.Modelos.Usuario", "Usuario")
                         .WithMany("Playlists")
-                        .HasForeignKey("UsuarioId1");
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Usuario");
                 });
@@ -592,12 +663,24 @@ namespace Melody.API.Migrations
 
             modelBuilder.Entity("Melody.Modelos.Seguimiento", b =>
                 {
-                    b.HasOne("Melody.Modelos.Usuario", "Artista")
+                    b.HasOne("Melody.Modelos.Artista", "Artista")
                         .WithMany()
+                        .HasForeignKey("ArtistaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Melody.Modelos.Artista", null)
+                        .WithMany("Seguidores")
                         .HasForeignKey("ArtistaId1");
 
                     b.HasOne("Melody.Modelos.Usuario", "Usuario")
                         .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Melody.Modelos.Usuario", null)
+                        .WithMany("Seguimientos")
                         .HasForeignKey("UsuarioId1");
 
                     b.Navigation("Artista");
@@ -615,7 +698,9 @@ namespace Melody.API.Migrations
 
                     b.HasOne("Melody.Modelos.Usuario", "Usuario")
                         .WithMany("Suscripciones")
-                        .HasForeignKey("UsuarioId1");
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Plan");
 
@@ -678,6 +763,15 @@ namespace Melody.API.Migrations
                     b.Navigation("Canciones");
                 });
 
+            modelBuilder.Entity("Melody.Modelos.Artista", b =>
+                {
+                    b.Navigation("Albums");
+
+                    b.Navigation("Canciones");
+
+                    b.Navigation("Seguidores");
+                });
+
             modelBuilder.Entity("Melody.Modelos.Cancion", b =>
                 {
                     b.Navigation("PlaylistCanciones");
@@ -707,13 +801,11 @@ namespace Melody.API.Migrations
 
             modelBuilder.Entity("Melody.Modelos.Usuario", b =>
                 {
-                    b.Navigation("Albums");
-
-                    b.Navigation("Canciones");
-
-                    b.Navigation("Pagos");
+                    b.Navigation("Artista");
 
                     b.Navigation("Playlists");
+
+                    b.Navigation("Seguimientos");
 
                     b.Navigation("Suscripciones");
                 });
