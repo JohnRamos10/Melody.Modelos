@@ -22,6 +22,6 @@ namespace Melody.Modelos
         public Artista? Artista { get; set; }
         public Album? Album { get; set; }
         public Genero? Genero { get; set; }
-        public List<PlaylistCancion>? PlaylistCanciones { get; set; }
+        public List<PlaylistCancion>? PlaylistsCanciones { get; set; }
     }
 }

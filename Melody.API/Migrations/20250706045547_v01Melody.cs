@@ -304,9 +304,7 @@ namespace Melody.API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UsuarioId = table.Column<int>(type: "int", nullable: false),
                     ArtistaId = table.Column<int>(type: "int", nullable: false),
-                    FechaSeguimiento = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ArtistaId1 = table.Column<int>(type: "int", nullable: true),
-                    UsuarioId1 = table.Column<int>(type: "int", nullable: true)
+                    FechaSeguimiento = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -318,21 +316,11 @@ namespace Melody.API.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Seguimientos_Artistas_ArtistaId1",
-                        column: x => x.ArtistaId1,
-                        principalTable: "Artistas",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_Seguimientos_AspNetUsers_UsuarioId",
                         column: x => x.UsuarioId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Seguimientos_AspNetUsers_UsuarioId1",
-                        column: x => x.UsuarioId1,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -417,7 +405,7 @@ namespace Melody.API.Migrations
                         column: x => x.PlaylistId,
                         principalTable: "Playlists",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
@@ -527,19 +515,9 @@ namespace Melody.API.Migrations
                 column: "ArtistaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Seguimientos_ArtistaId1",
-                table: "Seguimientos",
-                column: "ArtistaId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Seguimientos_UsuarioId",
                 table: "Seguimientos",
                 column: "UsuarioId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Seguimientos_UsuarioId1",
-                table: "Seguimientos",
-                column: "UsuarioId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Suscripciones_PlanId",

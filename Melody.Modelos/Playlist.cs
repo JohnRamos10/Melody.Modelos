@@ -16,6 +16,6 @@ namespace Melody.Modelos
         public int UsuarioId { get; set; }
         // Navigation properties
         public Usuario? Usuario { get; set; }
-        public List<PlaylistCancion>? PlaylistCanciones { get; set; } 
+        public List<PlaylistCancion>? PlaylistsCanciones { get; set; } 
     }
 }

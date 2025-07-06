@@ -267,27 +267,17 @@ namespace Melody.API.Migrations
                     b.Property<int>("ArtistaId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ArtistaId1")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("FechaSeguimiento")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("UsuarioId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UsuarioId1")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ArtistaId");
 
-                    b.HasIndex("ArtistaId1");
-
                     b.HasIndex("UsuarioId");
-
-                    b.HasIndex("UsuarioId1");
 
                     b.ToTable("Seguimientos");
                 });
@@ -645,15 +635,15 @@ namespace Melody.API.Migrations
             modelBuilder.Entity("Melody.Modelos.PlaylistCancion", b =>
                 {
                     b.HasOne("Melody.Modelos.Cancion", "Cancion")
-                        .WithMany("PlaylistCanciones")
+                        .WithMany("PlaylistsCanciones")
                         .HasForeignKey("CancionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Melody.Modelos.Playlist", "Playlist")
-                        .WithMany("PlaylistCanciones")
+                        .WithMany("PlaylistsCanciones")
                         .HasForeignKey("PlaylistId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Cancion");
@@ -664,24 +654,16 @@ namespace Melody.API.Migrations
             modelBuilder.Entity("Melody.Modelos.Seguimiento", b =>
                 {
                     b.HasOne("Melody.Modelos.Artista", "Artista")
-                        .WithMany()
+                        .WithMany("Seguidores")
                         .HasForeignKey("ArtistaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Melody.Modelos.Artista", null)
-                        .WithMany("Seguidores")
-                        .HasForeignKey("ArtistaId1");
-
                     b.HasOne("Melody.Modelos.Usuario", "Usuario")
-                        .WithMany()
+                        .WithMany("Seguimientos")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("Melody.Modelos.Usuario", null)
-                        .WithMany("Seguimientos")
-                        .HasForeignKey("UsuarioId1");
 
                     b.Navigation("Artista");
 
@@ -774,7 +756,7 @@ namespace Melody.API.Migrations
 
             modelBuilder.Entity("Melody.Modelos.Cancion", b =>
                 {
-                    b.Navigation("PlaylistCanciones");
+                    b.Navigation("PlaylistsCanciones");
                 });
 
             modelBuilder.Entity("Melody.Modelos.Genero", b =>
@@ -791,7 +773,7 @@ namespace Melody.API.Migrations
 
             modelBuilder.Entity("Melody.Modelos.Playlist", b =>
                 {
-                    b.Navigation("PlaylistCanciones");
+                    b.Navigation("PlaylistsCanciones");
                 });
 
             modelBuilder.Entity("Melody.Modelos.Suscripcion", b =>
