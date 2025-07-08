@@ -36,6 +36,11 @@ internal class Program
         })
         .AddEntityFrameworkStores<AppDbContext>()
         .AddDefaultTokenProviders();
+        builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
+        {
+
+            options.TokenLifespan = TimeSpan.FromMinutes(30);
+        });
 
         // ?? Configuración de JWT
         var jwtKey = builder.Configuration["Jwt:Key"];
