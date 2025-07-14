@@ -7,15 +7,15 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        Crud<Album>.Endpoint = "https://localhost:7108/api/Albums";
-        Crud<Playlist>.Endpoint = "https://localhost:7108/api/Playlists";
-        Crud<Cancion>.Endpoint = "https://localhost:7108/api/Canciones";
-        Crud<Genero>.Endpoint = "https://localhost:7108/api/Generos";
-        Crud<Plan>.Endpoint = "https://localhost:7108/api/Planes";
-        Crud<Pago>.Endpoint = "https://localhost:7108/api/Pagos";
-        Crud<Suscripcion>.Endpoint = "https://localhost:7108/api/Suscripciones";
-        Crud<PlaylistCancion>.Endpoint = "https://localhost:7108/api/PlaylistsCanciones";
-        Crud<Seguimiento>.Endpoint = "https://localhost:7108/api/Seguimientos";
+        Crud<Album>.Endpoint = "https://localhost:7115/api/Albums";
+        Crud<Playlist>.Endpoint = "https://localhost:7115/api/Playlists";
+        Crud<Cancion>.Endpoint = "https://localhost:7115/api/Canciones";
+        Crud<Genero>.Endpoint = "https://localhost:7115/api/Generos";
+        Crud<Plan>.Endpoint = "https://localhost:7115/api/Planes";
+        Crud<Pago>.Endpoint = "https://localhost:7115/api/Pagos";
+        Crud<Suscripcion>.Endpoint = "https://localhost:7115/api/Suscripciones";
+        Crud<PlaylistCancion>.Endpoint = "https://localhost:7115/api/PlaylistsCanciones";
+        Crud<Seguimiento>.Endpoint = "https://localhost:7115/api/Seguimientos";
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
