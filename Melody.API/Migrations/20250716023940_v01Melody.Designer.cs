@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Melody.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250706045547_v01Melody")]
+    [Migration("20250716023940_v01Melody")]
     partial class v01Melody
     {
         /// <inheritdoc />
