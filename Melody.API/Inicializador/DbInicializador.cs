@@ -42,7 +42,7 @@ namespace Melody.API.Inicializador
             }
 
             // Crear usuario administrador SOLO si no existe
-            if (!_db.Usuarios.Any(u => u.UserName == "yarikgonzales18@gmail.com"))
+            if (!_db.Usuarios.Any(u => u.UserName == "johnescanor77@gmail.com"))
             {
                 await _userManager.CreateAsync(new Usuario
                 {
