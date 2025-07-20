@@ -10,7 +10,7 @@ namespace Melody.MVC.Controllers
     public class PagosController : Controller
     {
         // GET: Pagos  
-        public static async Task<IActionResult> Index()
+        public  async Task<IActionResult> Index()
         {
             List<Pago> pagos = await Crud<Pago>.GetAll();
             return View(pagos);

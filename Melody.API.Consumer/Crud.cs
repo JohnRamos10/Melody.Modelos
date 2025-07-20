@@ -6,14 +6,14 @@ namespace Melody.API.Consumer
     public static class Crud<T>
     {
         public static string Endpoint { get; set; }
-        public static List<T> GetAll()
+        public static async Task<List<T>> GetAll()
         {
             using (var client = new HttpClient())
             {
-                var response = client.GetAsync(Endpoint).Result;
+                var response = await client.GetAsync(Endpoint);
                 if (response.IsSuccessStatusCode)
                 {
-                    var json = response.Content.ReadAsStringAsync().Result;
+                    var json = await response.Content.ReadAsStringAsync();
                     return JsonConvert.DeserializeObject<List<T>>(json);
                 }
                 else
@@ -22,6 +22,7 @@ namespace Melody.API.Consumer
                 }
             }
         }
+
         public static T GetById(int id)
         {
             using (var client = new HttpClient())
