@@ -1,0 +1,34 @@
+﻿@model List<Melody.Modelos.Pago>
+@{
+    ViewData["Title"] = "Listado de Pagos";
+}
+
+<h2 class="mb-3">Listado de Pagos</h2>
+
+<a href="/Reportes/GenerarReportePagos" class="btn btn-success mb-3">Descargar Reporte PDF</a>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Monto</th>
+            <th>Fecha</th>
+            <th>Método de Pago</th>
+            <th>Suscriptor</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pago in Model)
+        {
+            <tr>
+                <td>@pago.Id</td>
+                <td>$@pago.Monto.ToString("F2")</td>
+                <td>@pago.FechaPago.ToString("dd/MM/yyyy")</td>
+                <td>@pago.MetodoPago</td>
+                <td>
+                    @pago.Suscripcion?.Usuario?.Nombre @pago.Suscripcion?.Usuario?.Apellido
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -30,14 +30,14 @@ namespace Melody.MVC.Controllers
             return View();
         }
 
-        private List<SelectListItem> GetGeneros()
+        private async Task<List<SelectListItem>> GetGeneros()
         {
-            var generos = Crud<Genero>.GetAll();
+            var generos = await Crud<Genero>.GetAll();
             return generos.Select(g => new SelectListItem
             {
                 Value = g.Id.ToString(),
                 Text = g.Nombre
-            }).ToList(); ;
+            }).ToList();
         }
 
         // POST: CancionesController/Create
