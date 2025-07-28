@@ -1,0 +1,22 @@
+﻿@model List<Melody.Modelos.Plan>
+
+<h2>Planes Disponibles</h2>
+
+@foreach (var plan in Model)
+{
+    <div class="card p-3 mb-3">
+        <h4>@plan.Nombre</h4>
+        <p>@plan.Descripcion</p>
+        <p><strong>Precio:</strong> $@plan.Precio</p>
+        <p><strong>Duración:</strong> @plan.DuracionDias días</p>
+
+        @if (plan.Precio == 0)
+        {
+            <a class="btn btn-success" href="/Suscripciones/Create?planId=@plan.Id">Suscribirme Gratis</a>
+        }
+        else
+        {
+            <a class="btn btn-primary" href="/Pagos/Create?planId=@plan.Id">Suscribirme y Pagar</a>
+        }
+    </div>
+}

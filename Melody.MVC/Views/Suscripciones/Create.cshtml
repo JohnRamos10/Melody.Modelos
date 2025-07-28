@@ -1,0 +1,8 @@
+﻿@model Melody.Modelos.DTOs.CrearSuscripcionDto
+
+<h3>Crear Suscripción</h3>
+
+<form asp-action="Create">
+    <input type="hidden" name="PlanId" value="@ViewBag.PlanId" />
+    <button type="submit" class="btn btn-success">Confirmar Suscripción</button>
+</form>
