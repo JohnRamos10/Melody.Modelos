@@ -72,6 +72,7 @@ namespace Melody.MVC.Services
                     if (errorObj?.error != null)
                     {
                         errorMessage = errorObj.error.ToString();
+                        errores.Add(errorMessage);
                     }
                     else if (errorObj?.errores != null)
                     {

@@ -92,15 +92,9 @@ namespace Melody.MVC.Controllers
             {
                 var resultado = _authService.Registrar(model);
 
-                if (resultado.IsSuccess)
+                if (!resultado.IsSuccess)
                 {
-                    TempData["SuccessMessage"] = resultado.Message;
-                    return RedirectToAction("Login");
-                }
-                else
-                {
-                    ModelState.AddModelError("", resultado.Message);
-                    foreach (var error in resultado.Errors)
+                    foreach (var error in resultado.Errors.Distinct())
                     {
                         ModelState.AddModelError("", error);
                     }

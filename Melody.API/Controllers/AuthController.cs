@@ -153,6 +153,38 @@ namespace Melody.API.Controllers
                 return StatusCode(500, new { error = "Ocurrió un error. Intenta nuevamente." });
             }
         }
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginDto dto)
+        {
+            try
+            {
+                var usuario = await _userManager.FindByEmailAsync(dto.Email);
+                if (usuario == null || !await _userManager.CheckPasswordAsync(usuario, dto.Password))
+                {
+                    return Unauthorized(new { message = "Correo o contraseña incorrectos." });
+                }
+
+                if (!usuario.EmailConfirmed)
+                {
+                    return Unauthorized(new { message = "Debes confirmar tu correo electrónico antes de iniciar sesión." });
+                }
+
+                var roles = await _userManager.GetRolesAsync(usuario);
+                var token = _jwtService.GenerarToken(usuario, roles);
+
+                return Ok(new
+                {
+                    token = token,
+                    mensaje = "Inicio de sesión exitoso"
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al iniciar sesión para el usuario: {Email}", dto.Email);
+                return StatusCode(500, new { message = "Ocurrió un error interno. Intenta más tarde." });
+            }
+        }
+
 
         [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto dto)

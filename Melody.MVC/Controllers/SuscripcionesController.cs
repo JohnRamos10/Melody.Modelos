@@ -2,15 +2,16 @@
 using Melody.Modelos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Melody.MVC.Controllers
 {
     public class SuscripcionesController : Controller
     {
-        // GET: SuscripcionesController
-        public IActionResult Create(int planId)
+        // GET: SuscripcionesController/Create?planId=...
+        public async Task<IActionResult> Create(int planId)
         {
-            var plan = Crud<Plan>.GetById(planId);
+            var plan = await Crud<Plan>.GetById(planId);
             ViewBag.Plan = plan;
 
             var nuevaSuscripcion = new Suscripcion
@@ -24,11 +25,11 @@ namespace Melody.MVC.Controllers
         // POST: Suscripciones/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Suscripcion suscripcion)
+        public async Task<IActionResult> Create(Suscripcion suscripcion)
         {
             try
             {
-                var plan = Crud<Plan>.GetById(suscripcion.PlanId);
+                var plan = await Crud<Plan>.GetById(suscripcion.PlanId);
 
                 suscripcion.FechaInicio = DateTime.Now;
                 suscripcion.FechaFin = DateTime.Now.AddDays(plan.DuracionDias);
@@ -38,7 +39,7 @@ namespace Melody.MVC.Controllers
                 suscripcion.UsuarioId = Convert.ToInt32(HttpContext.Session.GetString("UsuarioId"));
 
                 // Crear la suscripción en la API
-                var suscripcionCreada = Crud<Suscripcion>.Create(suscripcion);
+                var suscripcionCreada = await Crud<Suscripcion>.Create(suscripcion);
 
                 if (plan.Precio == 0)
                 {

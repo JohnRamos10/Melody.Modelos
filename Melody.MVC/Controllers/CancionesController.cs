@@ -9,24 +9,21 @@ namespace Melody.MVC.Controllers
 {
     public class CancionesController : Controller
     {
-        // GET: CancionesController
-        public ActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var data = Crud<Cancion>.GetAll();
+            var data = await Crud<Cancion>.GetAll();
             return View(data);
         }
 
-        // GET: CancionesController/Details/5
-        public ActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            var data = Crud<Cancion>.GetById(id);
-            return View();
+            var data = await Crud<Cancion>.GetById(id);
+            return View(data);
         }
 
-        // GET: CancionesController/Create
-        public ActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewBag.Generos = GetGeneros();
+            ViewBag.Generos = await GetGeneros();
             return View();
         }
 
@@ -40,63 +37,60 @@ namespace Melody.MVC.Controllers
             }).ToList();
         }
 
-        // POST: CancionesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Cancion data)
+        public async Task<IActionResult> Create(Cancion data)
         {
             try
             {
-                Crud<Cancion>.Create(data);
+                await Crud<Cancion>.Create(data);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
+                ViewBag.Generos = await GetGeneros();
                 return View(data);
             }
         }
 
-        // GET: CancionesController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var data = Crud<Cancion>.GetById(id);
-            ViewBag.Generos = GetGeneros();
+            var data = await Crud<Cancion>.GetById(id);
+            ViewBag.Generos = await GetGeneros();
             return View(data);
         }
 
-        // POST: CancionesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Cancion data)
+        public async Task<IActionResult> Edit(int id, Cancion data)
         {
             try
             {
-                Crud<Cancion>.Update(id, data);
+                await Crud<Cancion>.Update(id, data);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
+                ViewBag.Generos = await GetGeneros();
                 return View(data);
             }
         }
 
-        // GET: CancionesController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var data = Crud<Cancion>.GetById(id);
+            var data = await Crud<Cancion>.GetById(id);
             return View(data);
         }
 
-        // POST: CancionesController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, Cancion data)
+        public async Task<IActionResult> Delete(int id, Cancion data)
         {
             try
             {
-                Crud<Cancion>.Delete(id);
+                await Crud<Cancion>.Delete(id);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -106,4 +100,5 @@ namespace Melody.MVC.Controllers
             }
         }
     }
+
 }
